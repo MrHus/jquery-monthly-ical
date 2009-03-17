@@ -14,7 +14,10 @@
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function()
 		{
-			$("#ical").ical();
+			$("#ical").ical(
+			{
+				eventdates: ['yyyy-12-25', 'yyyy-mm-01', '2009-04-dd']
+			});
 		});
 	</script>
 	
