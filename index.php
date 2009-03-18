@@ -16,7 +16,7 @@
 		{
 			$("#ical").ical(
 			{
-				eventdates: ['yyyy-12-25', 'yyyy-mm-01', '2009-04-dd']
+				eventdates:['2009-03-21', '2009-mm-01']
 			});
 		});
 	</script>
@@ -25,5 +25,3 @@
 		
 </body>
 </html>
-
-

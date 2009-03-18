@@ -5,9 +5,11 @@
 */
 (function($)
 {
+    var eventdates = [];
+    
     $.fn.ical = function(options) 
     {
-        var defaults = {
+        $.fn.ical.defaults = {
            daynames: ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'], //default short names for the days of the week
            monthnames: ['Januari', 'Febuari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
@@ -17,11 +19,12 @@
            beforeYear: function(insdate) {}
         };
         
-        var options = $.extend(defaults, options);
+        var options = $.extend({}, $.fn.ical.defaults, options);
           
         return this.each(function() 
         {
             var obj = $(this); //get the object
+            eventdates = options.eventdates;
             
             var insdate = options.startdate; //The date that gets used for calculating the month
             createCalendar(obj, insdate);
@@ -36,7 +39,8 @@
             createNavigation(obj, insdate);
             createTable(obj); //create table
             addDatesToTable(obj, insdate);
-        }
+            codabubble();
+        };
         
         /**
         * Create the navigation and handle its clicks
@@ -87,7 +91,7 @@
                 date = new Date(year, month, 1);
                 createCalendar(obj, date);
             });         
-        }
+        };
         
         /**
         * Create the table for the calendar
@@ -137,7 +141,8 @@
                 if(isEventDate(formatdate))
                 {
                     options.beforeDay(formatdate);
-                    $("table tr:last, obj").append("<td class='date_has_event' id = '"+formatdate+"'>"+ i +"</td"); //add day
+                    
+                    $("table tr:last, obj").append("<td class='date_has_event' id = '"+formatdate+"'>"+ i +"<div class='events'><ul><li><span class='title'>Event 1</span><span class='desc'>Lorem ipsum dolor sit amet, consectetu adipisicing elit.</span></li></ul></div></td"); //add day
                 }
                 else
                 {
@@ -152,7 +157,7 @@
             }
             
             highlightToday(obj);
-        }
+        };
         
         function getMonthNumber(month)
         {
@@ -163,25 +168,25 @@
                     return i;
                 }
             }
-        }
+        };
         
         function getDaysInMonth(year, month)
         {
             return 32 - new Date(year, month, 32).getDate();
-        }
+        };
         
         function highlightToday(obj)
         {
             var today = new Date();
             today = formatDate(today.getFullYear(), today.getMonth(), today.getDate());
             $("#"+today, obj).attr("class", "today");
-        }
+        };
         
         function isEventDate(date) 
         {
-            for (var i = 0; i < options.eventdates.length; i++)
+            for (var i = 0; i < eventdates.length; i++)
             {
-                var evaldate = evaluateEventDate(options.eventdates[i], date);
+                var evaldate = evaluateEventDate(eventdates[i], date);
                 
                 if(date === evaldate)
                 {
@@ -190,7 +195,7 @@
             }
             
             return false;
-        }
+        };
         
         function evaluateEventDate(eventdate, date)
         {
@@ -213,7 +218,7 @@
             }
             
             return eventdate[0]+'-'+eventdate[1]+'-'+eventdate[2];
-        }
+        };
         
         function getLastDayOfMonth(year, month, days)
         {
@@ -226,7 +231,7 @@
             {
                 return date.getDay() -1;
             }
-        }
+        };
             
         function getFirstDayOfMonth(year, month)
         {
@@ -239,12 +244,12 @@
             {
                 return date.getDay() -1;
             }
-        }
+        };
         
         function formatDate (year, month, day) 
         {    
             return year+'-'+formatMonth(month)+'-'+formatDay(day);
-        }
+        };
         
         function formatMonth(month)
         {
@@ -256,7 +261,7 @@
             }
             
             return month; 
-        } 
+        };
         
         function formatDay(day)
         {
@@ -266,6 +271,77 @@
             }
             
             return day;
-        }
+        };
+        
+        function codabubble() //Stefano verna
+        {
+            $('.date_has_event').each(function () {
+        		// options
+        		var distance = 10;
+        		var time = 250;
+        		var hideDelay = 500;
+
+        		var hideDelayTimer = null;
+
+        		// tracker
+        		var beingShown = false;
+        		var shown = false;
+
+        		var trigger = $(this);
+        		var popup = $('.events ul', this).css('opacity', 0);
+
+        		// set the mouseover and mouseout on both element
+        		$([trigger.get(0), popup.get(0)]).mouseover(function () {
+        			// stops the hide event if we move from the trigger to the popup element
+        			if (hideDelayTimer) clearTimeout(hideDelayTimer);
+
+        			// don't trigger the animation again if we're being shown, or already visible
+        			if (beingShown || shown) {
+        				return;
+        			} else {
+        				beingShown = true;
+
+        				// reset position of popup box
+        				popup.css({
+        					bottom: 20,
+        					left: -76,
+        					display: 'block' // brings the popup back in to view
+        				})
+
+        				// (we're using chaining on the popup) now animate it's opacity and position
+        				.animate({
+        					bottom: '+=' + distance + 'px',
+        					opacity: 1
+        				}, time, 'swing', function() {
+        					// once the animation is complete, set the tracker variables
+        					beingShown = false;
+        					shown = true;
+        				});
+        			}
+        		}).mouseout(function () {
+        			// reset the timer if we get fired again - avoids double animations
+        			if (hideDelayTimer) clearTimeout(hideDelayTimer);
+
+        			// store the timer so that it can be cleared in the mouseover if required
+        			hideDelayTimer = setTimeout(function () {
+        				hideDelayTimer = null;
+        				popup.animate({
+        					bottom: '-=' + distance + 'px',
+        					opacity: 0
+        				}, time, 'swing', function () {
+        					// once the animate is complete, set the tracker variables
+        					shown = false;
+        					// hide the popup entirely after the effect (opacity alone doesn't do the job)
+        					popup.css('display', 'none');
+        				});
+        			}, hideDelay);
+        		});
+        	});  
+        };
     };
+    
+    $.fn.ical.changeEventDates = function(array){
+       eventdates = array;
+    };
+    
 })(jQuery);
