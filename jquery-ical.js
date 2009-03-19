@@ -5,7 +5,7 @@
 */
 (function($)
 {
-    var eventdates = [];
+    var eventdates = {};
     
     $.fn.ical = function(options) 
     {
@@ -13,7 +13,7 @@
            daynames: ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'], //default short names for the days of the week
            monthnames: ['Januari', 'Febuari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
-           eventdates: [],
+           eventdates: {},
            beforeDay: function (insdate) {},
            beforeMonth: function(insdate) {},
            beforeYear: function(insdate) {}
@@ -138,16 +138,17 @@
                 
                 var formatdate = formatDate(year, month, i);
                 
-                if(isEventDate(formatdate))
+                var datejson = isEventDate(formatdate)
+                
+                if(!datejson)
                 {
                     options.beforeDay(formatdate);
-                    
-                    $("table tr:last, obj").append("<td class='date_has_event' id = '"+formatdate+"'>"+ i +"<div class='events'><ul><li><span class='title'>Event 1</span><span class='desc'>Lorem ipsum dolor sit amet, consectetu adipisicing elit.</span></li></ul></div></td"); //add day
+                    $("table tr:last, obj").append("<td id = '"+formatdate+"'>"+i+"</td"); //add day
                 }
                 else
                 {
                     options.beforeDay(formatdate);
-                    $("table tr:last, obj").append("<td id = '"+formatdate+"'>"+ i +"</td"); //add day 
+                    $("table tr:last, obj").append("<td class='date_has_event' id = '"+formatdate+"'>"+i+"<div class='events'><ul><li><span class='title'>"+datejson.title+"</span><span class='desc'>"+datejson.desc+"</span></li></ul></div></td"); //add day  
                 }
             };
             
@@ -183,15 +184,14 @@
         };
         
         function isEventDate(date) 
-        {
-            for (var i = 0; i < eventdates.length; i++)
-            {
-                var evaldate = evaluateEventDate(eventdates[i], date);
-                
+        {     
+            for (var eventdate in eventdates['dates'])
+            {     
+                var evaldate = evaluateEventDate(eventdate, date);
                 if(date === evaldate)
                 {
-                   return true; 
-                }
+                   return eventdates.dates[eventdate]; 
+                } 
             }
             
             return false;
