@@ -273,7 +273,7 @@
             return day;
         };
         
-        function codabubble() //Stefano verna
+        function codabubble() //Stefano Verna
         {
             $('.date_has_event').each(function () {
         		// options
