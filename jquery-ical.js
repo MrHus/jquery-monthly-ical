@@ -10,8 +10,8 @@
     $.fn.ical = function(options) 
     {
         $.fn.ical.defaults = {
-           daynames: ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'], //default short names for the days of the week
-           monthnames: ['Januari', 'Febuari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'],
+           daynames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], //default short names for the days of the week
+           monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
            eventdates: {},
            beforeDay: function (insdate) {},
@@ -180,7 +180,7 @@
         {
             var today = new Date();
             today = formatDate(today.getFullYear(), today.getMonth(), today.getDate());
-            $("#"+today, obj).attr("class", "today");
+            $("#"+today, obj).addClass("today");
         };
         
         function isEventDate(date) 
