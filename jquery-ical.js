@@ -12,7 +12,7 @@
            monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
            eventdates: {},
-					 startOfWeek: 'Mo',
+					 startOnSunday: false,
            beforeDay: function (insdate) {},
            beforeMonth: function(insdate) {},
            beforeYear: function(insdate) {}
@@ -25,6 +25,7 @@
             eventdates = options.eventdates;
             
             var insdate = options.startdate; //The date that gets used for calculating the month
+
             createCalendar(obj, insdate);
         });
         
@@ -113,14 +114,20 @@
             
             var firstrow = true;
             
+						var startOnSunday = 0;
+						
+						if(options.startOnSunday){
+							  startOnSunday = 1;
+						}   
+
             for (var i = 1; i <= days; i++) //each day in month
             {
-                if((first + i - 1) % 7 === 0 || firstrow === true ) //add new tr for each new monday our if $i is zero
+                if((first + i - 1 + startOnSunday) % 7 === 0 || firstrow === true ) //add new tr for each new monday our if i is zero
                 {
                     $(".icaltable", obj).append("<tr></tr>");
                 }
                 
-                for(var j = 0; j < first && firstrow; j++) //add pre padding
+                for(var j = 0; j < first + startOnSunday && firstrow; j++) //add pre padding
                 {
                     $(".icaltable tr:last", obj).append("<td class = 'padding'></td");
                 }
@@ -146,7 +153,7 @@
                 }
             };
             
-            for (var i = 0; i < afterpadding; i++) //add after padding
+            for (var i = 0; i < afterpadding - startOnSunday; i++) //add after padding
             {
                 $(".icaltable tr:last", obj).append("<td class = 'padding'></td");
             }

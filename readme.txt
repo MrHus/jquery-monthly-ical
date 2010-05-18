@@ -67,5 +67,12 @@ $(document).ready(function()
 	});
 });
 
-TODO
-	More comments
+You can also set the start of the week on Sunday:
+
+$(document).ready(function()
+{	
+	$("#ical").ical({
+		startOnSunday: true,
+		daynames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+	});
+});
