@@ -3,12 +3,10 @@
 *
 * @author Maarten Hus
 */
-(function($)
-{
+(function($){
     var eventdates = {};
     
-    $.fn.ical = function(options) 
-    {
+    $.fn.ical = function(options){
         $.fn.ical.defaults = {
            daynames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], //default short names for the days of the week
            monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
@@ -21,8 +19,7 @@
         
         var options = $.extend({}, $.fn.ical.defaults, options);
           
-        return this.each(function() 
-        {
+        return this.each(function(){
             var obj = $(this); //get the object
             eventdates = options.eventdates;
             
@@ -33,8 +30,7 @@
         /**
         * Create the calendar
         */
-        function createCalendar(obj, insdate)
-        {
+        function createCalendar(obj, insdate){
             obj.html('');
             createNavigation(obj, insdate);
             createTable(obj); //create table
@@ -45,8 +41,7 @@
         /**
         * Create the navigation and handle its clicks
         */
-        function createNavigation(obj, insdate)
-        {
+        function createNavigation(obj, insdate){
             obj.append("<div><span id = 'currentmonth'>"+ options.monthnames[insdate.getMonth()] +"</span> <span id = 'currentyear'>"+ insdate.getFullYear() +"</span></div>" +
                       "<div><span id ='icalprev'><</span><span id ='icalnext'>></span></div>");
                       
@@ -96,8 +91,7 @@
         /**
         * Create the table for the calendar
         */
-        function createTable(obj)
-        {
+        function createTable(obj){
             obj.append("<table cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
             
             for (var i = 0; i < options.daynames.length; i++) 
@@ -106,8 +100,7 @@
             }
         };
         
-        function addDatesToTable(obj, insdate)
-        {
+        function addDatesToTable(obj, insdate){
             var month = insdate.getMonth();
             var year  = insdate.getFullYear();
             
@@ -160,8 +153,7 @@
             highlightToday(obj);
         };
         
-        function getMonthNumber(month)
-        {
+        function getMonthNumber(month){
             for (var i = 0; i < options.monthnames.length; i++)
             {
                 if(options.monthnames[i] === month)
@@ -171,20 +163,17 @@
             }
         };
         
-        function getDaysInMonth(year, month)
-        {
+        function getDaysInMonth(year, month){
             return 32 - new Date(year, month, 32).getDate();
         };
         
-        function highlightToday(obj)
-        {
+        function highlightToday(obj){
             var today = new Date();
             today = formatDate(today.getFullYear(), today.getMonth(), today.getDate());
             $("#"+today, obj).addClass("today");
         };
         
-        function isEventDate(date) 
-        {     
+        function isEventDate(date){     
             for (var eventdate in eventdates['dates'])
             {     
                 var evaldate = evaluateEventDate(eventdate, date);
@@ -197,8 +186,7 @@
             return false;
         };
         
-        function evaluateEventDate(eventdate, date)
-        {
+        function evaluateEventDate(eventdate, date){
             var eventdate = eventdate.split('-');
             var date = date.split('-');
             
@@ -220,8 +208,7 @@
             return eventdate[0]+'-'+eventdate[1]+'-'+eventdate[2];
         };
         
-        function getLastDayOfMonth(year, month, days)
-        {
+        function getLastDayOfMonth(year, month, days){
             var date = new Date(year, month, days);
             if(date.getDay() == 0)//we start on monday!
             {
@@ -233,8 +220,7 @@
             }
         };
             
-        function getFirstDayOfMonth(year, month)
-        {
+        function getFirstDayOfMonth(year, month){
             var date = new Date(year, month, 1);
             if(date.getDay() == 0) //we start on monday!
             {
@@ -246,13 +232,11 @@
             }
         };
         
-        function formatDate (year, month, day) 
-        {    
+        function formatDate (year, month, day){    
             return year+'-'+formatMonth(month)+'-'+formatDay(day);
         };
         
-        function formatMonth(month)
-        {
+        function formatMonth(month){
             month = month + 1;
             
             if (month < 10)
@@ -263,8 +247,7 @@
             return month; 
         };
         
-        function formatDay(day)
-        {
+        function formatDay(day){
             if (day < 10) 
             {
                 day = '0'+day;
@@ -273,8 +256,7 @@
             return day;
         };
         
-        function codabubble() //Stefano Verna
-        {
+        function codabubble(){ //Stefano Verna
             $('.date_has_event').each(function () {
         		// options
         		var distance = 10;
