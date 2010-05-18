@@ -13,14 +13,14 @@ body h1 {
 	font-size: 26px;
 	color: #335;
 }
-table {
+.icaltable {
 	border-collapse: separate;
 	border: 1px solid #9DABCE;
 	border-width: 0px 0px 1px 1px;
 	margin: 10px auto;
 	font-size: 20px;
 }
-td, th {
+.icaltable td, th {
 	width: 81px;
 	height: 81px;
 	text-align: center;
@@ -29,30 +29,30 @@ td, th {
 	color: #444;
 	position: relative;
 }
-th {
+.icaltable th {
 	height: 30px;
 	font-weight: bold;
 	font-size: 14px;
 }
-td:hover, th:hover {
+.icaltable td:hover, .icaltable th:hover {
 	background-position: 0px -81px;
 	color: #222;
 }
-td.date_has_event {
+.icaltable td.date_has_event {
 	background-position: 162px 0px;
 	color: white;
 }
-td.date_has_event:hover {
+.icaltable td.date_has_event:hover {
 	background-position: 162px -81px;
 }
-td.padding {
+.icaltable td.padding {
 	background: url(../img/calpad.jpg);
 }
-td.today {
+.icaltable td.today {
 	background-position: 81px 0px;
 	color: white;
 }
-td.today:hover {
+.icaltable td.today:hover {
 	background-position: 81px -81px;
 }
 

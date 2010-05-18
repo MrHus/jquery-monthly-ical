@@ -12,6 +12,7 @@
            monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
            eventdates: {},
+					 startOfWeek: 'Mo',
            beforeDay: function (insdate) {},
            beforeMonth: function(insdate) {},
            beforeYear: function(insdate) {}
@@ -92,11 +93,11 @@
         * Create the table for the calendar
         */
         function createTable(obj){
-            obj.append("<table cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
+            obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
             
             for (var i = 0; i < options.daynames.length; i++) 
             {
-               $("table tr, obj").append("<th>"+ options.daynames[i] +"</th>"); //add the day header
+               $(".icaltable tr", obj).append("<th>"+ options.daynames[i] +"</th>"); //add the day header
             }
         };
         
@@ -116,12 +117,12 @@
             {
                 if((first + i - 1) % 7 === 0 || firstrow === true ) //add new tr for each new monday our if $i is zero
                 {
-                    $("table", obj).append("<tr></tr>");
+                    $(".icaltable", obj).append("<tr></tr>");
                 }
                 
                 for(var j = 0; j < first && firstrow; j++) //add pre padding
                 {
-                    $("table tr:last, obj").append("<td class = 'padding'></td");
+                    $(".icaltable tr:last", obj).append("<td class = 'padding'></td");
                 }
                 
                 firstrow = false; //no more pre padding
@@ -136,18 +137,18 @@
                 if(!datejson)
                 {
                     options.beforeDay(formatdate);
-                    $("table tr:last, obj").append("<td id = '"+formatdate+"'>"+i+"</td"); //add day
+                    $(".icaltable tr:last", obj).append("<td id = '"+formatdate+"'>"+i+"</td"); //add day
                 }
                 else
                 {
                     options.beforeDay(formatdate);
-                    $("table tr:last, obj").append("<td class='date_has_event' id = '"+formatdate+"'>"+i+"<div class='events'><ul><li><span class='title'>"+datejson.title+"</span><span class='desc'>"+datejson.desc+"</span></li></ul></div></td"); //add day  
+                    $(".icaltable tr:last", obj).append("<td class='date_has_event' id = '"+formatdate+"'>"+i+"<div class='events'><ul><li><span class='title'>"+datejson.title+"</span><span class='desc'>"+datejson.desc+"</span></li></ul></div></td"); //add day  
                 }
             };
             
             for (var i = 0; i < afterpadding; i++) //add after padding
             {
-                $("table tr:last, obj").append("<td class = 'padding'></td");
+                $(".icaltable tr:last", obj).append("<td class = 'padding'></td");
             }
             
             highlightToday(obj);
@@ -207,7 +208,7 @@
             
             return eventdate[0]+'-'+eventdate[1]+'-'+eventdate[2];
         };
-        
+
         function getLastDayOfMonth(year, month, days){
             var date = new Date(year, month, days);
             if(date.getDay() == 0)//we start on monday!
