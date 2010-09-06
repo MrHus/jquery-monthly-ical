@@ -12,7 +12,7 @@
            monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
            eventdates: {},
-					 startOnSunday: false,
+		   startOnSunday: false,
            beforeDay: function (insdate) {},
            beforeMonth: function(insdate) {},
            beforeYear: function(insdate) {}
