@@ -28,18 +28,19 @@ http://www.stefanoverna.com/log/create-astonishing-ical-like-calendars-with-jque
 	{	
 		$("#ical").ical({
 		
-			eventdates: {"dates": 	
-							{ 
-								"2009-03-21": {"title": "My birthday", "desc": "Its my birthday!"},
-								"yyyy-01-01": {"title": "New Year", "desc": "Its a new year!"},
-								"2009-mm-01": {"title": "New Month", "desc": "First day of the new month!"}
-							}
-						}		
+			eventdates: [{"date": "2009-03-21", "title": "My birthday", "desc": "Its my birthday!"},
+					 	 {"date": "yyyy-01-01", "title": "New Year", "desc": "Its a new year!"},
+					 	 {"date": "2009-mm-01", "title": "New Month", "desc": "First day of the new month!"},
+					 	 {"date": "2010-mm-01", "title": "New Month", "desc": "First day of the new month!"},
+					 	 {"date": "2010-09-01", "title": "Convention", "desc": "September convention."}, 
+					 	 {"date": "2010-09-02", "title": "Convention", "desc": "September convention day two."}, 
+					 	 {"date": "2010-mm-01", "title": "Towl", "desc": "Dont forget to bring a towl."}	
+						]					
 		});
 	});
 
 Eventdates take a date in yyyy-mm-dd format. You can also add wildcards if you want every date to be special
-you can add "yyyy-mm-dd": {"title": "Its allways someones birthday!", "desc": "Party"}
+you can add {"date": "yyyy-mm-dd", "title": "Its allways someones birthday!", "desc": "Party"}
 
 Hooks:
 

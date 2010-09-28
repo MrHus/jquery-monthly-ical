@@ -51,7 +51,7 @@
             {
                 var month = insdate.getMonth() + 1;
                 
-                if(month > 11)
+                if (month > 11)
                 {
                     month = 0;
                     var year = insdate.getFullYear() + 1;
@@ -72,7 +72,7 @@
             {
                 var month = insdate.getMonth() - 1;
                 
-                if(month < 0)
+                if (month < 0)
                 {
                     month = 11;
                     var year = insdate.getFullYear() - 1;
@@ -114,15 +114,22 @@
             
             var firstrow = true;
             
-						var startOnSunday = 0;
+			var startOnSunday = 0;
 						
-						if(options.startOnSunday){
-							  startOnSunday = 1;
-						}   
+			if (options.startOnSunday){
+				if (first == 6)
+				{
+					startOnSunday = -6;
+				}
+				else
+				{
+					startOnSunday = 1;
+				}
+			}   
 
             for (var i = 1; i <= days; i++) //each day in month
             {
-                if((first + i - 1 + startOnSunday) % 7 === 0 || firstrow === true ) //add new tr for each new monday our if i is zero
+                if ((first + i - 1 + startOnSunday) % 7 === 0 || firstrow === true ) //add new tr for each new monday our if i is zero
                 {
                     $(".icaltable", obj).append("<tr></tr>");
                 }
@@ -139,20 +146,42 @@
                 
                 var formatdate = formatDate(year, month, i);
                 
-                var datejson = isEventDate(formatdate)
+                var jsondates  = getEventDates(formatdate)
                 
-                if(!datejson)
+                if (jsondates.length === 0)
                 {
                     options.beforeDay(formatdate);
                     $(".icaltable tr:last", obj).append("<td id = '"+formatdate+"'>"+i+"</td"); //add day
                 }
                 else
                 {
-                    options.beforeDay(formatdate);
-                    $(".icaltable tr:last", obj).append("<td class='date_has_event' id = '"+formatdate+"'>"+i+"<div class='events'><ul><li><span class='title'>"+datejson.title+"</span><span class='desc'>"+datejson.desc+"</span></li></ul></div></td"); //add day  
+					var firstEvent = true;
+					for (var k = 0; k < jsondates.length; k++)
+					{
+						var datejson = jsondates[k];
+						options.beforeDay(formatdate);
+						
+						//alert(datejson.title);
+							
+						var str = "<li><span class='title'>"+ datejson.title +"</span><span class='desc'>"+ datejson.desc +"</span></li>"
+						
+						if (firstEvent)
+						{
+							$(".icaltable tr:last", obj).append("<td class='date_has_event' id = '"+ formatdate +"'>"+i+"<div class='events'><ul id ='ul-"+ formatdate +"'>"+ str +"</ul></div></td>"); //add day  
+							firstEvent = false;
+						}
+						else
+						{
+							$("#ul-" + formatdate, obj).append(str);
+						}
+					}
                 }
             };
             
+			if (options.startOnSunday){
+				startOnSunday = 1;
+			} 
+
             for (var i = 0; i < afterpadding - startOnSunday; i++) //add after padding
             {
                 $(".icaltable tr:last", obj).append("<td class = 'padding'></td");
@@ -164,7 +193,7 @@
         function getMonthNumber(month){
             for (var i = 0; i < options.monthnames.length; i++)
             {
-                if(options.monthnames[i] === month)
+                if (options.monthnames[i] === month)
                 {
                     return i;
                 }
@@ -181,24 +210,27 @@
             $("#"+today, obj).addClass("today");
         };
         
-        function isEventDate(date){     
-            for (var eventdate in eventdates['dates'])
+        function getEventDates(date){
+			
+			var results = [];
+			
+            for (var i = 0;  i < eventdates.length; i++)
             {     
-                var evaldate = evaluateEventDate(eventdate, date);
-                if(date === evaldate)
+                var evaldate = evaluateEventDate(eventdates[i]["date"], date);
+                if (date === evaldate)
                 {
-                   return eventdates.dates[eventdate]; 
+                	results.push(eventdates[i]);
                 } 
             }
             
-            return false;
+            return results;
         };
         
         function evaluateEventDate(eventdate, date){
             var eventdate = eventdate.split('-');
             var date = date.split('-');
             
-            if(eventdate[0] === 'yyyy')
+            if (eventdate[0] === 'yyyy')
             {
                 eventdate[0] = date[0];
             }
@@ -208,7 +240,7 @@
                 eventdate[1] = date[1];
             }
             
-            if(eventdate[2] === 'dd')
+            if (eventdate[2] === 'dd')
             {
                 eventdate[2] = date[2];
             }
@@ -218,7 +250,7 @@
 
         function getLastDayOfMonth(year, month, days){
             var date = new Date(year, month, days);
-            if(date.getDay() == 0)//we start on monday!
+            if (date.getDay() == 0)//we start on monday!
             {
                 return 6;
             }
@@ -230,7 +262,7 @@
             
         function getFirstDayOfMonth(year, month){
             var date = new Date(year, month, 1);
-            if(date.getDay() == 0) //we start on monday!
+            if (date.getDay() == 0) //we start on monday!
             {
                 return 6;
             }
@@ -293,7 +325,7 @@
 
         				// reset position of popup box
         				popup.css({
-        					bottom: 20,
+        					bottom: -20,
         					left: -76,
         					display: 'block' // brings the popup back in to view
         				})
