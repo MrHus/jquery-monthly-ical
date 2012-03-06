@@ -167,7 +167,7 @@
 						
 						if (firstEvent)
 						{
-							$(".icaltable tr:last", obj).append("<td class='date_has_event' id = '"+ formatdate +"'>"+i+"<div class='events'><ul id ='ul-"+ formatdate +"'>"+ str +"</ul></div></td>"); //add day  
+							$(".icaltable tr:last", obj).append("<td class='date_has_event " + datejson.className + "' id = '"+ formatdate +"'>"+i+"<div class='events'><ul id ='ul-"+ formatdate +"'>"+ str +"</ul></div></td>"); //add day  
 							firstEvent = false;
 						}
 						else
