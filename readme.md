@@ -82,3 +82,14 @@ You can also set the start of the week on Sunday:
 			daynames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 		});
 	});
+
+##More options
+You can also use some other options. **daynames** and **monthnames** could be used for translations.
+
+    $(document).ready(function(){
+        $('#ical').ical({
+            daynames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], //default short names for the days of the week
+            monthnames: ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            displayDaysInLastRow: true, // Boolean. Display or not the week days in the last row
+        });
+    });
