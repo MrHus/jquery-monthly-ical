@@ -11,7 +11,6 @@
            daynames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], //default short names for the days of the week
            monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
-           tableClass: 'icaltable',
            displayDaysInLastRow: true,
            eventdates: {},
 		   startOnSunday: false,
@@ -96,7 +95,12 @@
         * Create the table for the calendar
         */
         function createTable(obj){
-            obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
+            if (options.displayDaysInLastRow) {
+                obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
+            }
+            else {
+                obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot></tfoot></table>"); //add a table 
+            }
             
             for (var i = 0; i < options.daynames.length; i++) 
             {
