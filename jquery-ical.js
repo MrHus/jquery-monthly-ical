@@ -11,6 +11,7 @@
            daynames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], //default short names for the days of the week
            monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
            startdate: new Date(), // The date the calender should take as start point
+           displayDaysInLastRow: true,
            eventdates: {},
 		   startOnSunday: false,
            beforeDay: function (insdate) {},
@@ -94,7 +95,12 @@
         * Create the table for the calendar
         */
         function createTable(obj){
-            obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
+            if (options.displayDaysInLastRow) {
+                obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot><tr></tr></tfoot></table>"); //add a table 
+            }
+            else {
+                obj.append("<table class='icaltable' cellspacing='0'><thead><tr></tr></thead><tfoot></tfoot></table>"); //add a table 
+            }
             
             for (var i = 0; i < options.daynames.length; i++) 
             {
@@ -184,7 +190,7 @@
 
             for (var i = 0; i < afterpadding - startOnSunday; i++) //add after padding
             {
-                $(".icaltable tr:last", obj).append("<td class = 'padding'></td");
+                $(".icaltable tr:last", obj).append("<td class = 'padding'></td>");
             }
             
             highlightToday(obj);
