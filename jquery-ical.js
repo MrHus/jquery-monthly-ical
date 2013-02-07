@@ -9,7 +9,7 @@
     $.fn.ical = function(options){
         $.fn.ical.defaults = {
            daynames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], //default short names for the days of the week
-           monthnames: ['Januari', 'Febuari', 'March', 'April', 'May', 'Juni', 'Juli', 'August', 'September', 'October', 'November', 'December'],
+           monthnames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
            startdate: new Date(), // The date the calender should take as start point
            displayDaysInLastRow: true,
            eventdates: {},
